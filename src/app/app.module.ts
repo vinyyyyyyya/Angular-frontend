@@ -8,6 +8,7 @@ import { CreateEmployeeComponent } from './create-employee/create-employee.compo
 import { FormsModule } from '@angular/forms';
 import { UpdateEmployeeComponent } from './update-employee/update-employee.component';
 import { EmpDetailsComponent } from './emp-details/emp-details.component';
+import { DemoUserComponent } from './demo-user/demo-user.component';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { EmpDetailsComponent } from './emp-details/emp-details.component';
     CreateEmployeeComponent,
     UpdateEmployeeComponent,
     EmpDetailsComponent,
+    DemoUserComponent,
 
   ],
   imports: [
