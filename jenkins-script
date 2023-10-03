@@ -14,9 +14,11 @@ pipeline {
         docker { image 'node:16-alpine' }
       }
       steps {
-         sh 'npm cache clean --force'
-         sh 'npm install' 
-         sh 'npm run build --prod'
+        dir('src') {
+                    // Install dependencies and build Angular app
+                    sh 'npm install'
+                    sh 'npm run build'
+                }
       }
     }
   }
