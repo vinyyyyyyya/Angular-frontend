@@ -2,13 +2,6 @@ pipeline {
     agent none
 
     stages {
-        stage('Checkout') {
-            steps {
-                // Checkout your source code from your version control system (e.g., Git)
-                // You might need to configure your Git credentials here.
-                checkout scm
-            }
-        }
 
       stage('Build Angular Application') {
             agent {
