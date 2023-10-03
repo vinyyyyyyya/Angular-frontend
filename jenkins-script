@@ -1,28 +1,21 @@
 pipeline {
-    agent none
-
-    stages {
-
-      stage('Build Angular Application') {
-            agent {
-               docker { image 'node:16-alpine' }
-            }
-            steps {
-                sh 'npm install' // Install Angular dependencies
-                sh 'npm run build --prod' // Build the Angular application for production
-            }
-        }
-
-       
-
-    post {
-        success {
-            // Add any post-deployment steps here (e.g., notifications, clean-up)
-            echo 'Deployment successful!'
-        }
-        failure {
-            // Add steps to handle deployment failure here
-            echo 'Deployment failed!'
-        }
+  agent none
+  stages {
+    stage('Back-end') {
+      agent {
+        docker { image 'maven:3.8.1-adoptopenjdk-11' }
+      }
+      steps {
+        sh 'mvn --version'
+      }
     }
+    stage('Front-end') {
+      agent {
+        docker { image 'node:16-alpine' }
+      }
+      steps {
+        sh 'node --version'
+      }
+    }
+  }
 }
