@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent none
 
     stages {
         stage('Checkout') {
@@ -10,37 +10,17 @@ pipeline {
             }
         }
 
-        stage('Install Dependencies') {
+      stage('Build Angular Application') {
+            agent {
+               docker { image 'node:16-alpine' }
+            }
             steps {
-                // Install Node.js and npm if not already installed
-                sh 'curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -'
-                sh 'sudo apt-get install -y nodejs'
-
-                // Install Angular CLI globally
-                sh 'npm install -g @angular/cli'
-
-                // Install project dependencies
-                sh 'npm install'
+                sh 'npm install' // Install Angular dependencies
+                sh 'npm run build --prod' // Build the Angular application for production
             }
         }
 
-        stage('Build') {
-            steps {
-                // Build the Angular application
-                sh 'ng build --prod'
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                // Copy the built application to your web server or hosting location
-                // This could involve copying files to an Apache/Nginx server, AWS S3, or other hosting solutions
-                // You may need to configure your deployment location and credentials here.
-                // For example, to deploy to an S3 bucket:
-                sh 'aws s3 cp dist/ s3://your-s3-bucket-name/ --recursive'
-            }
-        }
-    }
+       
 
     post {
         success {
