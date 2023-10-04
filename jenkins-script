@@ -8,7 +8,7 @@ pipeline {
       steps {
         dir('angular-frontend') {
                     // Install dependencies and build Angular app
-                    sh 'npm install'
+                    sh 'npm install -g'
                     sh 'npm run build'
                 }
       }
