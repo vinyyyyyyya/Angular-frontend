@@ -12,6 +12,15 @@ pipeline {
                 sh 'npm install'
             }
         }
+        stage('SonarQube Analysis') {
+            steps {
+                // Run SonarQube analysis on the project
+                withSonarQubeEnv('http://13.235.17.180:9000') {
+                    sh 'npm install -g sonarqube-scanner'
+                    sh 'sonar-scanner'
+                }
+            }
+        }
         stage('Build and Test') {
             steps {
                 sh 'npm run build' // Adjust this command as per your Angular project setup
