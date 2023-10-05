@@ -9,21 +9,17 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                script {
                     // Use the Node.js tool to set the desired Node.js version
                     tools.nodejs.NODEJS_INSTALLATION = NODE_VERSION
                     def npm = tool name: 'NodeJS', type: 'Tool'
                     sh "${npm}/bin/npm install"
-                }
             }
         }
 
         stage('Build') {
             steps {
-                script {
                     // Your build commands (e.g., webpack, gulp, etc.)
                     sh "${npm}/bin/npm run build"
-                }
             }
         }
 
