@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('Front-end') {
       agent {
-        docker { image 'node:16-alpine' }
+        docker { image 'node:18-alpine' }
       }
       steps {
         dir('Angular-frontend') {
