@@ -13,14 +13,15 @@ pipeline {
             }
         }
         stage('SonarQube Analysis') {
-            steps {
-                // Run SonarQube analysis on the project
-                withSonarQubeEnv('http://13.233.227.139:9000') {
-                    sh 'npm install -g sonarqube-scanner'
-                    sh 'sonar-scanner'
-                }
+             environment {
+              SONAR_URL = "http://13.233.227.139:9000"
+              }
+           steps {
+               withCredentials([string(credentialsId: 'sonarqube', variable: 'SONAR_AUTH_TOKEN')]) {
+               sh 'npm install -g sonarqube-scanner && sonar-scanner:sonar -Dsonar.login=$SONAR_AUTH_TOKEN -Dsonar.host.url=${SONAR_URL}'
             }
-        }
+          }
+         }
         stage('Build and Test') {
             steps {
                 sh 'npm run build' // Adjust this command as per your Angular project setup
