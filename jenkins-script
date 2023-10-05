@@ -9,7 +9,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 sh 'echo passed'
-                //git branch: 'main', url: 'https://github.com/vinyyyyyyya/Angular-frontend'
+                //git branch: 'master', url: 'https://github.com/vinyyyyyyya/Angular-frontend.git'
             }
         }
 
