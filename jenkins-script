@@ -15,7 +15,7 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 // Run SonarQube analysis on the project
-                withSonarQubeEnv('http://13.235.17.180:9000') {
+                withSonarQubeEnv('http://13.233.227.139/:9000') {
                     sh 'npm install -g sonarqube-scanner'
                     sh 'sonar-scanner'
                 }
