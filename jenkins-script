@@ -10,8 +10,6 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                     // Use the Node.js tool to set the desired Node.js version
-                    tools.nodejs.NODEJS_INSTALLATION = NODE_VERSION
-                    def npm = tool name: 'NodeJS', type: 'Tool'
                     sh "${npm}/bin/npm install"
             }
         }
