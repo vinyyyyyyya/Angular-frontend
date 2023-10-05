@@ -1,15 +1,17 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:16-alpine' 
-            args '-p 3000:3000' 
-        }
-    }
+    agent any
+         environment {
+           NODE_VERSION = '18'  // Set the Node.js version
+         }
     stages {
-        stage('Build') { 
+       stage('Install Dependencies') {
             steps {
-                sh 'npm cache clean --force' 
-                sh 'npm install' 
+                script {
+                    // Use the Node.js tool to set the desired Node.js version
+                    tools.nodejs.NODEJS_INSTALLATION = NODE_VERSION
+                    def npm = tool name: 'NodeJS', type: 'Tool'
+                    sh "${npm}/bin/npm install"
+                }
             }
         }
     }
