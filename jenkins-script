@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Build and Test') {
             steps {
-                sh 'ng build --prod' // Adjust this command as per your Angular project setup
+                sh 'npm run build' // Adjust this command as per your Angular project setup
             }
         }
         stage('Publish Artifacts') {
