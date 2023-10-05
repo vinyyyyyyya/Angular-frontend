@@ -1,37 +1,36 @@
 pipeline {
-    agent any
-
-    environment {
-        NODE_VERSION = '18'  // Set the Node.js version
+    agent {
+        docker {
+            image 'node:14' // Use the Node.js image with the desired version
+            args '-u root' // Optionally, run the Docker container as root
+        }
     }
-
     stages {
-
+        
         stage('Install Dependencies') {
             steps {
-                    // Use the Node.js tool to set the desired Node.js version
-                    sh "${npm}/bin/npm install"
+                sh 'npm install'
             }
         }
-
-        stage('Build') {
+        stage('Build and Test') {
             steps {
-                    // Your build commands (e.g., webpack, gulp, etc.)
-                    sh "${npm}/bin/npm run build"
+                sh 'ng build --prod' // Adjust this command as per your Angular project setup
             }
         }
-
-        stage('Test') {
+        stage('Publish Artifacts') {
             steps {
-                script {
-                    // Your test commands (e.g., mocha, jest, etc.)
-                    sh "${npm}/bin/npm test"
-                }
+                // Copy the built files to a location where they can be archived or deployed
+                sh 'cp -r dist/* /var/www/html' // Example destination path
             }
         }
-
-       
     }
-
-  
+    post {
+        success {
+            // Optionally, trigger deployment or notifications on success
+        }
+        failure {
+            // Optionally, handle failure cases
+        }
+    }
 }
+
