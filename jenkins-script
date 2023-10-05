@@ -24,13 +24,6 @@ pipeline {
             }
         }
     }
-    post {
-        success {
-            // Optionally, trigger deployment or notifications on success
-        }
-        failure {
-            // Optionally, handle failure cases
-        }
-    }
+    
 }
 
