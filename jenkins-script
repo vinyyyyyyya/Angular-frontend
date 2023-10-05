@@ -42,12 +42,7 @@ pipeline {
             }
         }
 
-        stage('Deploy') {
-            steps {
-                // Add your deployment steps here
-                // This can be deploying to a server, a cloud platform, etc.
-            }
-        }
+       
     }
 
     post {
