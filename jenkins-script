@@ -1,10 +1,19 @@
 pipeline {
     agent any
-         environment {
-           NODE_VERSION = '18'  // Set the Node.js version
-         }
+
+    environment {
+        NODE_VERSION = '18'  // Set the Node.js version
+    }
+
     stages {
-       stage('Install Dependencies') {
+        stage('Checkout') {
+            steps {
+                sh 'echo passed'
+                //git branch: 'main', url: 'https://github.com/vinyyyyyyya/Angular-frontend'
+            }
+        }
+
+        stage('Install Dependencies') {
             steps {
                 script {
                     // Use the Node.js tool to set the desired Node.js version
@@ -13,6 +22,37 @@ pipeline {
                     sh "${npm}/bin/npm install"
                 }
             }
+        }
+
+        stage('Build') {
+            steps {
+                script {
+                    // Your build commands (e.g., webpack, gulp, etc.)
+                    sh "${npm}/bin/npm run build"
+                }
+            }
+        }
+
+        stage('Test') {
+            steps {
+                script {
+                    // Your test commands (e.g., mocha, jest, etc.)
+                    sh "${npm}/bin/npm test"
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                // Add your deployment steps here
+                // This can be deploying to a server, a cloud platform, etc.
+            }
+        }
+    }
+
+    post {
+        always {
+            // Cleanup, notify, or perform any other post-build actions here
         }
     }
 }
