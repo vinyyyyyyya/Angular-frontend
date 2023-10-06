@@ -25,12 +25,12 @@ pipeline {
         stage('Build and Test') {
            environment {
              DOCKER_IMAGE = "vinayak345/demo:${BUILD_NUMBER}"
-          // DOCKERFILE_LOCATION = "java-maven-sonar-argocd-helm-k8s/spring-boot-app/Dockerfile"
+          // DOCKERFILE_LOCATION = "DockerFile"
              REGISTRY_CREDENTIALS = credentials('docker-cred')
       }
       steps {
         script {
-            sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && docker build -t ${DOCKER_IMAGE} .'
+            sh 'cd DockerFile && docker build -t ${DOCKER_IMAGE} .'
             def dockerImage = docker.image("${DOCKER_IMAGE}")
             docker.withRegistry('https://index.docker.io/v1/', "docker-cred") {
                 dockerImage.push()
@@ -39,10 +39,22 @@ pipeline {
       }
         }
         stage('Publish Artifacts') {
-            steps {
-                // Copy the built files to a location where they can be archived or deployed
-                sh 'cp -r dist/* /var/www/html' // Example destination path
+                   environment {
+            GIT_REPO_NAME = "Angular-frontend"
+            GIT_USER_NAME = "vinyyyyyyya"
+        }
+        steps {
+            withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
+                sh '''
+                    git config user.email "vteradali5@gmail.com"
+                    git config user.name "vinyyyyyyya"
+                    BUILD_NUMBER=${BUILD_NUMBER}
+                    git commit -m "Update deployment image to version ${BUILD_NUMBER}"
+                    git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
+                '''
             }
+        }
+
         }
     }
     
