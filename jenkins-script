@@ -22,7 +22,7 @@ pipeline {
             }
           }
          }
-        stage('Build and Test') {
+        stage(''Build and Push Docker Image'') {
            environment {
              DOCKER_IMAGE = "vinayak345/demo:${BUILD_NUMBER}"
           // DOCKERFILE_LOCATION = "DockerFile"
@@ -38,7 +38,7 @@ pipeline {
         }
       }
         }
-        stage('Publish Artifacts') {
+        stage('Update Deployment File') {
                    environment {
             GIT_REPO_NAME = "Angular-frontend"
             GIT_USER_NAME = "vinyyyyyyya"
