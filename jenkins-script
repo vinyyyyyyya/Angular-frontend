@@ -22,7 +22,7 @@ pipeline {
             }
           }
          }
-        stage(''Build and Push Docker Image'') {
+        stage('Build and Push Docker Image') {
            environment {
              DOCKER_IMAGE = "vinayak345/demo:${BUILD_NUMBER}"
           // DOCKERFILE_LOCATION = "DockerFile"
