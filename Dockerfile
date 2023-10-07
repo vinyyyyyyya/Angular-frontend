@@ -1,29 +1,23 @@
-# Use an official Node.js runtime as a parent image
-FROM node:14 AS build
+FROM node:12.2.0
 
-# Set the working directory in the container
+# install chrome for protractor tests
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+RUN sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+RUN apt-get update && apt-get install -yq google-chrome-stable
+
+# set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json to the working directory
-COPY package*.json ./
+# add `/app/node_modules/.bin` to $PATH
+ENV PATH /app/node_modules/.bin:$PATH
 
-# Install dependencies
+# install and cache app dependencies
+COPY package.json /app/package.json
 RUN npm install
+RUN npm install -g @angular/cli@7.3.9
 
-# Copy the rest of the application code to the container
-COPY . .
+# add app
+COPY . /app
 
-# Build the Angular application (make sure you have already run 'ng build' with the production flag)
-RUN npm run build -- --prod
-
-# Stage 2: Create a lightweight container with a web server to serve the Angular app
-FROM nginx:alpine
-
-# Copy the built Angular app from the 'build' stage to the nginx web server directory
-COPY --from=build /app/dist /usr/share/nginx/html
-
-# Expose port 80 for the web server
-EXPOSE 80
-
-# Start the nginx web server
-CMD ["nginx", "-g", "daemon off;"]
+# start app
+CMD ng serve --host 0.0.0.0
