@@ -4,6 +4,9 @@ FROM node:14
 # Set the working directory to /app
 WORKDIR /app
 
+PORT=8000 \
+
+
 # Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
 
