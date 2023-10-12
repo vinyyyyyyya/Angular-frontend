@@ -16,10 +16,8 @@ RUN rm -rf ./*
 
 COPY --from=builder /app/dist/angular-frontend .
 
-ENTRYPOINT [ "nginx","-g","deamon off;" ]
 
 # Expose port 80 for the Angular app
-EXPOSE 8000
+EXPOSE 80
 
-# Start the Angular app when the container starts
-CMD ["npm", "start"]
+
